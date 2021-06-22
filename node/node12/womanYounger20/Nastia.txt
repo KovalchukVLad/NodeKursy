@@ -1,0 +1,1 @@
+{"name":"Nastia","gender":"female","age":15}

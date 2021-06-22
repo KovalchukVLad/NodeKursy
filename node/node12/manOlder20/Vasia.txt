@@ -1,0 +1,1 @@
+{"name":"Vasia","gender":"male","age":27}
