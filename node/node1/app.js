@@ -3,7 +3,6 @@ const changeDir = require('./changeDir');
 const fs = require('fs');
 const path = require('path');
 
-
 const filePath1 = __dirname + '/Group18-00';
 const filePath2 = __dirname + '/Group20-00';
 const filePathGirls = __dirname + '/Girls';
@@ -17,7 +16,6 @@ function dirCreator(pathFile) {
         }
     })
 }
-
 // dirCreator(filePath1);
 // dirCreator(filePath2);
 // dirCreator(filePathBoys);
@@ -36,7 +34,6 @@ const Max = {
     name: 'Max',
     gender: 'male'
 };
-
 const Vika = {
     name: 'Vika',
     gender: 'female'

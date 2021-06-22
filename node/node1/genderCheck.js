@@ -9,14 +9,14 @@ function genderCheck(groupPath) {
             console.log(err);
             return
         }
-        files.forEach(value =>{
+        files.forEach(value => {
             fs.readFile(path.join(groupPath, value), (err1, data) => {
                 if (err1) {
                     console.log(err1);
                     return
                 }
                 let a = JSON.parse(data.toString());
-                if (a.gender === 'female'){
+                if (a.gender === 'female') {
                     fs.rename(path.join(groupPath, value), path.join(filePathGirls, value), (err2) => {
                         if (err2) {
                             console.log(err2);
@@ -24,12 +24,11 @@ function genderCheck(groupPath) {
                     })
                     return;
                 }
-                    fs.rename(path.join(groupPath, value), path.join(filePathBoys, value), (err3) => {
-                        if (err3) {
-                            console.log(err3);
-                        }
-                    })
-
+                fs.rename(path.join(groupPath, value), path.join(filePathBoys, value), (err3) => {
+                    if (err3) {
+                        console.log(err3);
+                    }
+                })
             })
         })
     })
