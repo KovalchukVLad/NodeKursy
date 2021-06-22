@@ -69,7 +69,7 @@ function dataPush(pathFile, value) {
 
 ////////////changeDir/////////////
 changeDir(filePath1, filePath2);
-changeDir(filePath2, filePath1);
+// changeDir(filePath2, filePath1);
 
 ////////////////////////////////////////
 

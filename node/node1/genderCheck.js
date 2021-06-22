@@ -15,21 +15,21 @@ function genderCheck(groupPath) {
                     console.log(err1);
                     return
                 }
-                let a = JSON.parse(toString(data));
+                let a = JSON.parse(data.toString());
                 if (a.gender === 'female'){
                     fs.rename(path.join(groupPath, value), path.join(filePathGirls, value), (err2) => {
                         if (err2) {
                             console.log(err2);
                         }
                     })
+                    return;
                 }
-                else if (a.gender === 'male'){
                     fs.rename(path.join(groupPath, value), path.join(filePathBoys, value), (err3) => {
                         if (err3) {
                             console.log(err3);
                         }
                     })
-                }
+
             })
         })
     })
