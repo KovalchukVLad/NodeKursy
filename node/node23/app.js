@@ -11,7 +11,6 @@ app.use(express.urlencoded({extended: true}));
 const staticPath =path.join(__dirname, 'static');
 const filePath =path.join(__dirname, 'users.json');
 
-
 app.use(express.static(staticPath));
 
 app.set('view engine', '.hbs');
@@ -73,11 +72,10 @@ app.get('/users/:email', async (req, res) => {
     const user = users.find(user =>(user.email === email));
     res.render('user', {user});
 })
+
 app.get('/error', (req, res) => {
     res.render('error', {reason: "You must login or sign in"});
 })
-
-
 
 app.listen(3000,() => {
     console.log('app listen 3000');
