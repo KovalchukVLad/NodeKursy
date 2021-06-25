@@ -36,7 +36,7 @@ app.post('/login', async (req, res) => {
     const users = JSON.parse(data);
     const {email, password} = req.body;
 
-    let check = users.find(user => (user.email === email.toString() && user.password === password.toString()));
+    let check = users.find(user => (user.email === email && user.password === password));
     if (check) {
         res.redirect(`/users/${check.id}`);
         return;
