@@ -31,7 +31,7 @@ function _errorHandler(err, req, res, next) {
 }
 
 function pathNotFound(req, res, next) {
-    next(new ErrorHandler(404, WRONG_PATH.message, WRONG_PATH.code));
+    next(new ErrorHandler(responceCodesEnum.WRONG_PATH, WRONG_PATH.message, WRONG_PATH.code));
 }
 
 function mongooseConnector() {

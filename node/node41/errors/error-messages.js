@@ -4,6 +4,11 @@ module.exports = {
         code: '400.1'
     },
 
+    FIELD_IS_EMPTY: {
+        message: 'FIELD IS EMPTY',
+        code: '400.2'
+    },
+
     WRONG_EMAIL: {
         message: 'THIS EMAIL ALREADY EXSISTS',
         code: '409.1'
