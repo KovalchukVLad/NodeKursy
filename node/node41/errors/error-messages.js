@@ -7,5 +7,10 @@ module.exports = {
     WRONG_EMAIL: {
         message: 'THIS EMAIL ALREADY EXSISTS',
         code: '409.1'
+    },
+
+    WRONG_PATH: {
+        message: 'WRONG PATH',
+        code: '404.1'
     }
 };

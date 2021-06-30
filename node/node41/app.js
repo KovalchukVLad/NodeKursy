@@ -1,8 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
+const { constants, responceCodesEnum, errors } = require('./constants');
+const { errorMessages: { WRONG_PATH }, ErrorHandler } = require('./errors');
 const { userRouter } = require('./routes');
-const { constants } = require('./constants');
 
 const app = express();
 
@@ -12,12 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/users', userRouter);
-app.use('*', ((err, req, res, next) => {
-    next({
-        status: err.status || 404,
-        message: err.message || 'Route not found'
-    });
-}));
+app.use('*', pathNotFound);
 app.use(_errorHandler);
 
 app.listen(constants.PORT, () => {
@@ -29,9 +25,13 @@ function _errorHandler(err, req, res, next) {
     res
         .status(err.status)
         .json({
-            message: err.message || 'Unknown error',
-            customCode: err.code || 0
+            message: err.message || errors.UNKNOWN_ERROR,
+            customCode: err.code || responceCodesEnum.BAD_REQUEST
         });
+}
+
+function pathNotFound(req, res, next) {
+    next(new ErrorHandler(404, WRONG_PATH.message, WRONG_PATH.code));
 }
 
 function mongooseConnector() {

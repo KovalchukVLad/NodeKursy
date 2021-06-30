@@ -38,7 +38,7 @@ module.exports = {
 
             await User.deleteOne({ _id: userId });
 
-            res.status(responceCodesEnum.NO_CONTENT).json('success delete');
+            res.status(responceCodesEnum.RECORD_NOT_FOUND).json('success delete');
         } catch (e) {
             next(e);
         }
@@ -49,6 +49,6 @@ module.exports = {
 
         await User.updateOne({ _id: userId }, { ...req.body });
 
-        res.json('success update');
+        res.status(responceCodesEnum.CREATED).json('success update');
     }
 };
