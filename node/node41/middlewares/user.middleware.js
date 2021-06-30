@@ -6,6 +6,11 @@ module.exports = {
     checkIsUserExists: async (req, res, next) => {
         try {
             const { userId } = req.params;
+
+            if (userId.length !== 24) {
+                throw new ErrorHandler(BAD_REQUEST, RECORD_NOT_FOUND.message, RECORD_NOT_FOUND.code);
+            }
+
             const userById = await User.findById(userId);
 
             if (!userById) {
@@ -36,3 +41,5 @@ module.exports = {
         }
     }
 };
+// Дякую, усе виправив,
+//     але є питання, коли я провіряю в мідварі юзера на його існування,
