@@ -1,6 +1,6 @@
 const { User } = require('../dataBase');
 const { responceCodesEnum: { BAD_REQUEST, INVALID_DATA } } = require('../constants');
-const { errorMessages: { RECORD_NOT_FOUND, WRONG_EMAIL }, ErrorHandler } = require('../errors');
+const { errorMessages: { RECORD_NOT_FOUND, WRONG_EMAIL, ValidationError }, ErrorHandler } = require('../errors');
 const { userValidator, userIdValidator } = require('../validators');
 
 module.exports = {
@@ -9,8 +9,9 @@ module.exports = {
             const { userId } = req.params;
 
             const { error } = userIdValidator.userId.validate(userId);
+
             if (error) {
-                throw new Error(error.details[0].message);
+                throw new ErrorHandler(BAD_REQUEST, error.details[0].message, ValidationError.code);
             }
 
             const userById = await User.findById(userId);
@@ -47,7 +48,7 @@ module.exports = {
             const { error } = userValidator.createUser.validate(req.body);
 
             if (error) {
-                throw new Error(error.details[0].message);
+                throw new ErrorHandler(BAD_REQUEST, error.details[0].message, ValidationError.code);
             }
 
             next();
@@ -59,8 +60,9 @@ module.exports = {
     checkIsUserDataValidForUpdate: (req, res, next) => {
         try {
             const { error } = userValidator.updateUser.validate(req.body);
+
             if (error) {
-                throw new Error(error.details[0].message);
+                throw new ErrorHandler(BAD_REQUEST, error.details[0].message, ValidationError.code);
             }
 
             next();

@@ -9,6 +9,11 @@ module.exports = {
         code: '400.2'
     },
 
+    ValidationError: {
+        message: 'Error in validation',
+        code: '400.3'
+    },
+
     WRONG_EMAIL: {
         message: 'THIS EMAIL ALREADY EXSISTS',
         code: '409.1'
