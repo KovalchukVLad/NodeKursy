@@ -1,5 +1,5 @@
-const { responceCodesEnum } = require('../constants');
-const { User } = require('../dataBase');
+const { responceCodesEnum, constants: { AUTHORIZATION } } = require('../constants');
+const { User, OAuth } = require('../dataBase');
 const { userService } = require('../services');
 
 module.exports = {
@@ -25,7 +25,6 @@ module.exports = {
 
     createUser: async (req, res, next) => {
         try {
-            console.log(req.body);
             await userService.createUser(req.body);
 
             res.status(responceCodesEnum.CREATED).json('user successfully created');
@@ -36,9 +35,11 @@ module.exports = {
 
     deleteUser: async (req, res, next) => {
         try {
-            const { userId } = req.params;
+            const token = req.get(AUTHORIZATION);
+            const { user: { _id } } = req;
 
-            await User.deleteOne({ _id: userId });
+            await OAuth.remove({ accessToken: token });
+            await User.deleteOne({ _id });
 
             res.status(responceCodesEnum.NO_CONTENT).json('success delete');
         } catch (e) {
@@ -47,9 +48,9 @@ module.exports = {
     },
 
     updateUser: async (req, res) => {
-        const { userId } = req.params;
+        const { user: { _id } } = req;
 
-        await User.updateOne({ _id: userId }, req.body);
+        await User.updateOne({ _id }, req.body);
 
         res.status(responceCodesEnum.CREATED).json('success update');
     }

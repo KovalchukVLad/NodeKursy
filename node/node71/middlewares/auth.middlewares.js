@@ -1,4 +1,9 @@
-const { responceCodesEnum: { INVALID_DATA, BAD_REQUEST, UNAUTORIZED }, constants: { AUTHORIZATION } } = require('../constants');
+const {
+    responceCodesEnum: { INVALID_DATA, BAD_REQUEST, UNAUTORIZED },
+    constantsForTokens: {
+        AUTHORIZATION, ACCESS_TOKEN, ACCESS, REFRESH_TOKEN
+    },
+} = require('../constants');
 const { User, OAuth } = require('../dataBase');
 const { errorMessages: { WRONG_EMAIL_OR_PASSWORD, ValidationError, WRONG_TOKEN }, ErrorHandler } = require('../errors');
 const { authService, passwordService } = require('../services');
@@ -38,10 +43,10 @@ module.exports = {
         }
     },
 
-    checkToken: (tokenType = 'access') => async (req, res, next) => {
+    checkToken: (tokenType = ACCESS) => async (req, res, next) => {
         try {
             const token = req.get(AUTHORIZATION);
-            const type = tokenType === 'access' ? 'accessToken' : 'refreshToken';
+            const type = tokenType === ACCESS ? ACCESS_TOKEN : REFRESH_TOKEN;
 
             if (!token) {
                 throw new ErrorHandler(UNAUTORIZED, WRONG_TOKEN.message, WRONG_TOKEN.code);

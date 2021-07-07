@@ -1,4 +1,4 @@
-const { constants: { AUTHORIZATION }, responceCodesEnum: { NO_CONTENT } } = require('../constants');
+const { constantsForTokens: { AUTHORIZATION }, responceCodesEnum: { NO_CONTENT } } = require('../constants');
 const { OAuth } = require('../dataBase');
 const { authService } = require('../services');
 

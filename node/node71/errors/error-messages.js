@@ -32,5 +32,10 @@ module.exports = {
     WRONG_EMAIL_OR_PASSWORD: {
         message: 'WRONG EMAIL OR PASSWORD',
         code: '409.2'
-    }
+    },
+
+    CONFLICT_BETWEEN_TOKEN_AND_ID: {
+        message: 'CONFLICT BETWEEN TOKEN AND ID',
+        code: '409.3'
+    },
 };
