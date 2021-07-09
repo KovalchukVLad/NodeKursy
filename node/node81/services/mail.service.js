@@ -24,11 +24,12 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendEmail = async (userEmail, action, context = {}) => {
-    const { templateName, subject } = templateInfo[action];
+    const templateToSend = templateInfo[action];
 
-    if (!templateName) {
+    if (!templateToSend) {
         throw new ErrorHandler(INVALID_DATA, WRONG_EMAIL_TEMPLATE.message, WRONG_EMAIL_TEMPLATE.code);
     }
+    const { templateName, subject } = templateToSend;
 
     const html = await templateParser.render(templateName, context);
 

@@ -25,8 +25,10 @@ module.exports = {
 
     createUser: async (req, res, next) => {
         try {
+            const { name, email } = req.body;
+
             await userService.createUser(req.body);
-            await mailService.sendEmail(req.body.email, CREATE, { userName: req.body.name });
+            await mailService.sendEmail(email, CREATE, { userName: name });
 
             res.status(responceCodesEnum.CREATED).json('user successfully created');
         } catch (e) {
@@ -36,11 +38,11 @@ module.exports = {
 
     deleteUser: async (req, res, next) => {
         try {
-            const { user: { _id } } = req;
+            const { token, user: { _id, email } } = req;
 
-            await OAuth.remove({ accessToken: req.token });
+            await OAuth.remove({ accessToken: token });
             await User.deleteOne({ _id });
-            await mailService.sendEmail(req.user.email, DELETE, { userEmail: req.user.email });
+            await mailService.sendEmail(email, DELETE, { userEmail: email });
 
             res.status(responceCodesEnum.NO_CONTENT).json('success delete');
         } catch (e) {
