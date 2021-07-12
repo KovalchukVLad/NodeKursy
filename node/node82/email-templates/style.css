@@ -1,0 +1,24 @@
+.center {
+    display: flex;
+    justify-content: center;
+}
+.template-part{
+    text-align: center;
+    font-size: 30px;
+    border: 3px solid black;
+    width: 494px;
+    color: black;
+}
+.template{
+    width: 500px;
+    margin: 0 auto;
+    background-color: #e7d795;
+}
+.body{
+    font-size: 24px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: block;
+    justify-content: center;
+    text-align: center;
+}

@@ -1,0 +1,23 @@
+doctype html
+html
+    head
+        style
+            include style.css
+    body
+        div.template
+            header.center
+            block header
+            div.template-part
+                | Hello!
+                br
+                | This is Database for users.
+        div.template
+            footer.center
+            block footer
+            div.template-part
+                | If you didn't do it,
+                a(href="https://github.com/KovalchukVLad") contact support.
+                br
+                | This email was sent automatically.
+                br
+                | Thanks
