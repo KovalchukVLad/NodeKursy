@@ -4,7 +4,11 @@ const { ErrorHandler, errorMessages: { WRONG_FILE_FORMAT, FILE_SIZE_ERROR, WRONG
 module.exports = {
     checkFiles: (req, res, next) => {
         try {
-            const files = Object.values(req.files);
+            let files = Object.values(req.files);
+
+            if (Array.isArray(files[0])) {
+                [files] = files;
+            }
 
             const photos = [];
             const videos = [];
@@ -35,9 +39,11 @@ module.exports = {
                     throw new ErrorHandler(INVALID_DATA, WRONG_FILE_FORMAT.message, WRONG_FILE_FORMAT.code);
                 }
             }
+
             req.photos = photos;
             req.videos = videos;
             req.documents = documents;
+
             next();
         } catch (e) {
             next(e);

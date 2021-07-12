@@ -7,6 +7,7 @@ router.get('/', userController.getAllUsers);
 
 router.post('/',
     fileMiddleware.checkFiles,
+    fileMiddleware.checkAvatar,
     userMiddleware.checkIsUserDataValid,
     userMiddleware.checkIsEmailExists,
     userController.createUser);
