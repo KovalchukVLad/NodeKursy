@@ -67,6 +67,9 @@ module.exports = {
         try {
             const { token, user: { _id, email } } = req;
 
+            const userDirPath = path.join(process.cwd(), STATIC_DIR, USERS_DIR, _id.toString());
+            await promiseRmDir(userDirPath, { recursive: true });
+
             await OAuth.remove({ accessToken: token });
             await User.deleteOne({ _id });
             await mailService.sendEmail(email, DELETE, { userEmail: email });
