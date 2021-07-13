@@ -10,6 +10,10 @@ const {
         PHOTOS_DIR,
         STATIC_DIR,
         USERS_DIR
+    },
+    responceMessages: {
+        USER_UPDATED,
+        USER_DELETED
     }
 } = require('../constants');
 const { User, OAuth } = require('../dataBase');
@@ -59,7 +63,10 @@ module.exports = {
                 await User.updateOne({ _id }, { gallery: [photo.photoPath] });
             }
 
-            res.status(responceCodesEnum.CREATED).json('user successfully created');
+            const createdUser = await User.findById(_id);
+            const normalizedUser = userService.userNormalizer(createdUser.toJSON());
+
+            res.status(responceCodesEnum.CREATED).json(normalizedUser);
         } catch (e) {
             next(e);
         }
@@ -75,21 +82,19 @@ module.exports = {
             await OAuth.remove({ accessToken: token });
             await User.deleteOne({ _id });
             await mailService.sendEmail(email, DELETE, { userEmail: email });
-            res.status(responceCodesEnum.NO_CONTENT).json('success delete');
+            res.status(responceCodesEnum.NO_CONTENT).json(USER_DELETED);
         } catch (e) {
             next(e);
         }
     },
 
     updateUser: async (req, res) => {
-        const { user: { _id } } = req;
+        const { user: { _id, name, email } } = req;
 
         await User.updateOne({ _id }, req.body);
+        await mailService.sendEmail(email, UPDATE, { userName: name, newData: JSON.stringify(req.body) });
 
-        const newUser = await User.findOne({ _id });
-        await mailService.sendEmail(newUser.email, UPDATE, { userName: newUser.name, newData: JSON.stringify(req.body) });
-
-        res.status(responceCodesEnum.CREATED).json('success update');
+        res.status(responceCodesEnum.CREATED).json(USER_UPDATED);
     },
 
     changeAvatar: async (req, res, next) => {
@@ -108,18 +113,12 @@ module.exports = {
                 const photo = await fileDirBuilder(avatar.name, _id, USERS_DIR, PHOTOS_DIR);
 
                 await avatar.mv(photo.finalPath);
-
-                const { gallery } = await User.findOne({ _id });
-
-                await User.updateOne({ _id }, {
-                    gallery: [
-                        ...gallery,
-                        photo.photoPath
-                    ]
-                });
+                await User.updateOne({ _id }, { $push: { gallery: photo.photoPath } });
             }
+            const user = await User.findById(_id);
+            const normalizedUser = userService.userNormalizer(user.toJSON());
 
-            res.json('avatar changed');
+            res.status(responceCodesEnum.CREATED).json(normalizedUser);
         } catch (e) {
             next(e);
         }
@@ -127,7 +126,7 @@ module.exports = {
 
     addToGallery: async (req, res, next) => {
         try {
-            const { photos, user: { _id } } = req;
+            const { photos, user: { _id, gallery } } = req;
 
             const photosUrlArr = [];
 
@@ -145,7 +144,7 @@ module.exports = {
                 await User.updateOne({ _id }, { $push: { gallery: photosUrlArr } });
             }
 
-            res.json('photo successfully added to gallery');
+            res.status(responceCodesEnum.CREATED).json(gallery.concat(photosUrlArr));
         } catch (e) {
             next(e);
         }

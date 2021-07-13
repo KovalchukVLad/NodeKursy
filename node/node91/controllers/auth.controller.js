@@ -1,4 +1,8 @@
-const { emailActionsEnum: { WELCOME }, responceCodesEnum: { NO_CONTENT } } = require('../constants');
+const {
+    emailActionsEnum: { WELCOME },
+    responceCodesEnum: { NO_CONTENT },
+    responceMessages: { LOGOUT_SUCCESS }
+} = require('../constants');
 const { OAuth } = require('../dataBase');
 const { authService, mailService, userService } = require('../services');
 
@@ -32,7 +36,7 @@ module.exports = {
             const { token } = req;
             await OAuth.remove({ accessToken: token });
 
-            res.status(NO_CONTENT).json('Logout success');
+            res.status(NO_CONTENT).json(LOGOUT_SUCCESS);
         } catch (e) {
             next(e);
         }

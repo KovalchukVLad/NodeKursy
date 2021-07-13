@@ -7,4 +7,5 @@ module.exports.errors = require('./errors');
 module.exports.mimetypes = require('./mimetypes');
 module.exports.regexp = require('./regexp');
 module.exports.responceCodesEnum = require('./response-codes.enum');
+module.exports.responceMessages = require('./response-messages');
 module.exports.userRolesEnum = require('./user-roles.enum');
