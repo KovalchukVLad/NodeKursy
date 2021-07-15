@@ -8,7 +8,7 @@ const {
     },
 } = require('../constants');
 const { User, OAuth } = require('../dataBase');
-const { errorMessages: { WRONG_EMAIL_OR_PASSWORD, ValidationError, WRONG_TOKEN }, ErrorHandler } = require('../errors');
+const { ErrorHandler, errorMessages: { WRONG_EMAIL_OR_PASSWORD, ValidationError, WRONG_TOKEN } } = require('../errors');
 const { authService, passwordService } = require('../services');
 const { userAuthValidator } = require('../validators');
 
