@@ -181,6 +181,23 @@ module.exports = {
         }
     },
 
+    resetPassword: async (req, res, next) => {
+        try {
+            const { email, name, _id } = req.user;
+
+            const passwordToken = tokenService.createPasswordChangeConfirmToken();
+
+            await PasswordConfirm.deleteOne({ userId: _id });
+
+            await PasswordConfirm.create({ passwordToken, userId: _id });
+            await mailService.sendEmail(email, PASSWORD_CONFIRM, { name, token: passwordToken });
+
+            res.json(CONFIRM_EMAIL);
+        } catch (e) {
+            next(e);
+        }
+    },
+
     changeAccess: async (req, res, next) => {
         try {
             const { changeRole } = req.query;

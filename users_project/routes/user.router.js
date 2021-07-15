@@ -55,6 +55,11 @@ router.patch('/:userId/password-confirm',
     tokenMiddleware.checkPasswordToken,
     userController.confirmPassword);
 
+router.patch('/:userId/forgot-password',
+    userMiddleware.checkIsUserExists,
+    userMiddleware.checkEmailValidForResetPassword,
+    userController.resetPassword);
+
 router.patch('/:userId/avatar',
     filesMiddleware.checkFiles,
     filesMiddleware.checkAvatar,

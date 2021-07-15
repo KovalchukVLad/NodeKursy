@@ -62,7 +62,6 @@ module.exports = {
                     CONFLICT_BETWEEN_TOKEN_AND_ID.code
                 );
             }
-
             const { error } = userIdValidator.userId.validate(userId);
 
             if (error) {
@@ -84,6 +83,25 @@ module.exports = {
             }
 
             req.user = userById;
+
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    checkEmailValidForResetPassword: (req, res, next) => {
+        try {
+            const { userEmail } = req.query;
+            const { email } = req.user;
+
+            if (userEmail !== email) {
+                throw new ErrorHandler(
+                    BAD_REQUEST,
+                    RECORD_NOT_FOUND.message,
+                    RECORD_NOT_FOUND.code
+                );
+            }
 
             next();
         } catch (e) {
